@@ -28,7 +28,7 @@ function App ({films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
         <Signin />
       </Route>
       <Route path={AppRoute.FILM} exact>
-        <Film />
+        <Film movie={movie} />
       </Route>
       <Route path={AppRoute.PLAYER} exact>
         <Player movie={movie} />

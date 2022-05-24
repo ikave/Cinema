@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import Header from '../../layout/header';
 import { FilmType } from '../../types/film';
 
 interface AddReviewProps {
@@ -9,42 +11,23 @@ function AddReview({movie}: AddReviewProps): JSX.Element {
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={movie.previewImage} alt={movie.name} />
+          <img src={movie.backgroundImage} alt={movie.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header">
-          <div className="logo">
-            <a href="main.html" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
+        <Header>
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <a href="film-page.html" className="breadcrumbs__link">{movie.name}</a>
+                <Link to={`/films/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a href="#1" className="breadcrumbs__link">Add review</a>
+                <span className="breadcrumbs__link">Add review</span>
               </li>
             </ul>
           </nav>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a href="#1" className="user-block__link">Sign out</a>
-            </li>
-          </ul>
-        </header>
+        </Header>
 
         <div className="film-card__poster film-card__poster--small">
           <img src={movie.posterImage} alt={movie.name} width="218" height="327" />
