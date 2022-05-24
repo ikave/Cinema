@@ -19,9 +19,11 @@ interface AppProps {
   poster: string
   films: FilmType[],
   reviews: ReviewsType[]
+  favoritesFilms: FilmType[]
+  movie: FilmType
 }
 
-function App ({title, genre, release, image, poster, films, reviews}: AppProps): JSX.Element {
+function App ({title, genre, release, image, poster, films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
@@ -34,15 +36,15 @@ function App ({title, genre, release, image, poster, films, reviews}: AppProps):
         <Film />
       </Route>
       <Route path={AppRoute.PLAYER} exact>
-        <Player />
+        <Player movie={movie} />
       </Route>
       <Route path={AppRoute.ADD_REVIEW} exact>
-        <AddReview />
+        <AddReview movie={movie} />
       </Route>
       <ProtectedRoute
         exact
         path={AppRoute.MY_LIST}
-        render={() => <MyList />}
+        render={() => <MyList films={favoritesFilms} />}
       >
       </ProtectedRoute>
       <Route path='*'>
