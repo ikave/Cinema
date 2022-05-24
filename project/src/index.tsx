@@ -11,11 +11,6 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <App
-        title='The Grand Budapest Hotel'
-        genre='Drama'
-        release='2014'
-        image='img/bg-the-grand-budapest-hotel.jpg'
-        poster='img/the-grand-budapest-hotel-poster.jpg'
         films={films}
         reviews={reviews}
         favoritesFilms={favoritesFilms}

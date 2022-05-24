@@ -12,22 +12,17 @@ import { ReviewsType } from '../../types/reviews';
 import ProtectedRoute from '../protected-route/protected-route';
 
 interface AppProps {
-  title: string,
-  genre: string,
-  release: string,
-  image: string,
-  poster: string
   films: FilmType[],
   reviews: ReviewsType[]
   favoritesFilms: FilmType[]
   movie: FilmType
 }
 
-function App ({title, genre, release, image, poster, films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
+function App ({films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
-        <MainPage title={title} genre={genre} release={release} image={image} poster={poster} films={films} />
+        <MainPage movie={movie} films={films} />
       </Route>
       <Route path={AppRoute.SIGNIN} exact>
         <Signin />
