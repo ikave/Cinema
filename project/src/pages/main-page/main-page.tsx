@@ -1,4 +1,4 @@
-import MovieCard from '../../components/movie-card/movie-card';
+import MovieList from '../../components/movie-list/movie-list';
 import { FilmType } from '../../types/film';
 
 interface MainPageProps {
@@ -109,9 +109,7 @@ function MainPage ({title, genre, release, image, poster, films}: MainPageProps)
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {films.map((film) => <MovieCard key={film.id} film={film} />)}
-          </div>
+          <MovieList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
