@@ -7,6 +7,8 @@ import MyList from '../../pages/my-list/my-list';
 import NotFound from '../../pages/not-found/not-found';
 import Player from '../../pages/player/player';
 import Signin from '../../pages/signin/signin';
+import { FilmType } from '../../types/film';
+import { ReviewsType } from '../../types/reviews';
 import ProtectedRoute from '../protected-route/protected-route';
 
 interface AppProps {
@@ -15,9 +17,11 @@ interface AppProps {
   release: string,
   image: string,
   poster: string
+  films: FilmType[],
+  reviews: ReviewsType[]
 }
 
-function App ({title, genre, release, image, poster}: AppProps): JSX.Element {
+function App ({title, genre, release, image, poster, films, reviews}: AppProps): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
