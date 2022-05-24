@@ -1,14 +1,16 @@
 import MovieCard from '../../components/movie-card/movie-card';
+import { FilmType } from '../../types/film';
 
 interface MainPageProps {
   title: string,
   genre: string,
   release: string,
   image: string,
-  poster: string
+  poster: string,
+  films: FilmType[]
 }
 
-function MainPage ({title, genre, release, image, poster}: MainPageProps): JSX.Element {
+function MainPage ({title, genre, release, image, poster, films}: MainPageProps): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -108,22 +110,7 @@ function MainPage ({title, genre, release, image, poster}: MainPageProps): JSX.E
           </ul>
 
           <div className="catalog__films-list">
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
-            <MovieCard />
+            {films.map((film) => <MovieCard key={film.id} film={film} />)}
           </div>
 
           <div className="catalog__more">

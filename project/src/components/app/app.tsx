@@ -25,7 +25,7 @@ function App ({title, genre, release, image, poster, films, reviews}: AppProps):
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
-        <MainPage title={title} genre={genre} release={release} image={image} poster={poster} />
+        <MainPage title={title} genre={genre} release={release} image={image} poster={poster} films={films} />
       </Route>
       <Route path={AppRoute.SIGNIN} exact>
         <Signin />
