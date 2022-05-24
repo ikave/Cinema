@@ -7,38 +7,39 @@ import MyList from '../../pages/my-list/my-list';
 import NotFound from '../../pages/not-found/not-found';
 import Player from '../../pages/player/player';
 import Signin from '../../pages/signin/signin';
+import { FilmType } from '../../types/film';
+import { ReviewsType } from '../../types/reviews';
 import ProtectedRoute from '../protected-route/protected-route';
 
 interface AppProps {
-  title: string,
-  genre: string,
-  release: string,
-  image: string,
-  poster: string
+  films: FilmType[],
+  reviews: ReviewsType[]
+  favoritesFilms: FilmType[]
+  movie: FilmType
 }
 
-function App ({title, genre, release, image, poster}: AppProps): JSX.Element {
+function App ({films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
-        <MainPage title={title} genre={genre} release={release} image={image} poster={poster} />
+        <MainPage movie={movie} films={films} />
       </Route>
       <Route path={AppRoute.SIGNIN} exact>
         <Signin />
       </Route>
       <Route path={AppRoute.FILM} exact>
-        <Film />
+        <Film movie={movie} />
       </Route>
       <Route path={AppRoute.PLAYER} exact>
-        <Player />
+        <Player movie={movie} />
       </Route>
       <Route path={AppRoute.ADD_REVIEW} exact>
-        <AddReview />
+        <AddReview movie={movie} />
       </Route>
       <ProtectedRoute
         exact
         path={AppRoute.MY_LIST}
-        render={() => <MyList />}
+        render={() => <MyList films={favoritesFilms} />}
       >
       </ProtectedRoute>
       <Route path='*'>
