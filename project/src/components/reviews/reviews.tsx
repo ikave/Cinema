@@ -1,4 +1,10 @@
-function Reviews(): JSX.Element {
+import { FilmType } from '../../types/film';
+
+interface ReviewsProps {
+  movie: FilmType;
+}
+
+function Reviews({ movie }: ReviewsProps): JSX.Element {
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">

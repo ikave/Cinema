@@ -11,25 +11,21 @@ interface FilmProps {
   movie: FilmType;
 }
 
-const tabs = [
-  {
-    title: 'Overview',
-    content: <Overview />,
-  },
-  {
-    title: 'Details',
-    content: <Details />,
-  },
-  {
-    title: 'Reviews',
-    content: <Reviews />,
-  },
-];
-
 function Film({ movie }: FilmProps): JSX.Element {
-  // function createMarkup() {
-  //   return { __html: movie.description };
-  // }
+  const tabs = [
+    {
+      title: 'Overview',
+      content: <Overview movie={movie} />,
+    },
+    {
+      title: 'Details',
+      content: <Details movie={movie} />,
+    },
+    {
+      title: 'Reviews',
+      content: <Reviews movie={movie} />,
+    },
+  ];
 
   return (
     <>
@@ -94,49 +90,6 @@ function Film({ movie }: FilmProps): JSX.Element {
 
             <div className="film-card__desc">
               <Tabs tabs={tabs} />
-              {/* <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#1" className="film-nav__link">
-                      Overview
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#1" className="film-nav__link">
-                      Details
-                    </a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#1" className="film-nav__link">
-                      Reviews
-                    </a>
-                  </li>
-                </ul>
-              </nav> */}
-
-              {/* <div className="film-rating">
-                <div className="film-rating__score">{movie.rating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">
-                    {movie.scoresCount} ratings
-                  </span>
-                </p>
-              </div> */}
-
-              {/* <div className="film-card__text">
-                <p dangerouslySetInnerHTML={createMarkup()} />
-
-                <p className="film-card__director">
-                  <strong>Director: {movie.director}</strong>
-                </p>
-
-                <p className="film-card__starring">
-                  <strong>
-                    Starring: {movie.starring.join(', ')} and other
-                  </strong>
-                </p>
-              </div> */}
             </div>
           </div>
         </div>

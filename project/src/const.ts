@@ -13,6 +13,6 @@ export const AuthStatus = {
   NO_AUTH: 'NO_AUTH',
 };
 
-export const reviewStars = [
-  10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
-];
+export const reviewStars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+
+export const HOUR = 60;
