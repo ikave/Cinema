@@ -12,17 +12,16 @@ import { ReviewsType } from '../../types/reviews';
 import ProtectedRoute from '../protected-route/protected-route';
 
 interface AppProps {
-  films: FilmType[],
-  reviews: ReviewsType[]
-  favoritesFilms: FilmType[]
-  movie: FilmType
+  reviews: ReviewsType[];
+  favoritesFilms: FilmType[];
+  movie: FilmType;
 }
 
-function App ({films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
+function App({ favoritesFilms, movie, reviews }: AppProps): JSX.Element {
   return (
     <Switch>
       <Route path={AppRoute.MAIN} exact>
-        <MainPage movie={movie} films={films} />
+        <MainPage movie={movie} />
       </Route>
       <Route path={AppRoute.SIGNIN} exact>
         <Signin />
@@ -40,9 +39,8 @@ function App ({films, favoritesFilms, movie, reviews}: AppProps): JSX.Element {
         exact
         path={AppRoute.MY_LIST}
         render={() => <MyList films={favoritesFilms} />}
-      >
-      </ProtectedRoute>
-      <Route path='*'>
+      />
+      <Route path="*">
         <NotFound />
       </Route>
     </Switch>
