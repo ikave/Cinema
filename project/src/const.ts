@@ -16,3 +16,18 @@ export const AuthStatus = {
 export const reviewStars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 export const HOUR = 60;
+
+export const DEFAULT_GENRE = 'All genres';
+
+export const genres = [
+  'All genres',
+  'Comedy',
+  'Crime',
+  'Documentary',
+  'Dramas',
+  'Horror',
+  'Kids & Family',
+  'Romance',
+  'Sci-Fi',
+  'Thrillers',
+];
