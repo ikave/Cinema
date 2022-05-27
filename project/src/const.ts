@@ -17,6 +17,8 @@ export const reviewStars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 export const HOUR = 60;
 
+export const SHOW_FILMS_COUNT = 8;
+
 export const DEFAULT_GENRE = 'All genres';
 
 export const genres = [
