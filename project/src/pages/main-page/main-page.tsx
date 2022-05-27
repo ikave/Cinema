@@ -44,7 +44,6 @@ function MainPage({
     setFilteredFilms(getFilteredFilms());
   }, [genre, films]);
 
-  // console.log(genre);
   return (
     <>
       <section className="film-card">
@@ -104,12 +103,6 @@ function MainPage({
           <GenreList />
 
           <MovieList films={filteredFilms} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">
-              Show more
-            </button>
-          </div>
         </section>
 
         <Footer />
