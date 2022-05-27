@@ -1,16 +1,50 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import MovieList from '../../components/movie-list/movie-list';
-import { AppRoute } from '../../const';
+import { connect, ConnectedProps } from 'react-redux';
+
+import { FilmType } from '../../types/film';
+import { State } from '../../types/state';
+
+import { AppRoute, DEFAULT_GENRE } from '../../const';
+
 import Footer from '../../layout/footer';
 import Header from '../../layout/header';
-import { FilmType } from '../../types/film';
+import MovieList from '../../components/movie-list/movie-list';
+import GenreList from '../../components/genre-list/genre-list';
 
 interface MainPageProps {
-  movie: FilmType,
-  films: FilmType[]
+  movie: FilmType;
 }
 
-function MainPage ({movie, films}: MainPageProps): JSX.Element {
+const mapStateToProps = ({ genre, films }: State) => ({
+  genre,
+  films,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainPageProps;
+
+function MainPage({
+  movie,
+  films,
+  genre,
+}: ConnectedComponentProps): JSX.Element {
+  const [filteredFilms, setFilteredFilms] = useState(films);
+
+  const getFilteredFilms = () => {
+    if (genre === DEFAULT_GENRE) {
+      return films;
+    }
+    return films.filter((film) => film.genre === genre);
+  };
+
+  useEffect(() => {
+    setFilteredFilms(getFilteredFilms());
+  }, [genre, films]);
+
+  // console.log(genre);
   return (
     <>
       <section className="film-card">
@@ -25,7 +59,12 @@ function MainPage ({movie, films}: MainPageProps): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={movie.posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img
+                src={movie.posterImage}
+                alt="The Grand Budapest Hotel poster"
+                width="218"
+                height="327"
+              />
             </div>
 
             <div className="film-card__desc">
@@ -36,13 +75,19 @@ function MainPage ({movie, films}: MainPageProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${movie.id}`} className="btn btn--play film-card__button">
+                <Link
+                  to={`/player/${movie.id}`}
+                  className="btn btn--play film-card__button"
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.MY_LIST} className="btn btn--list film-card__button">
+                <Link
+                  to={AppRoute.MY_LIST}
+                  className="btn btn--list film-card__button"
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -56,44 +101,14 @@ function MainPage ({movie, films}: MainPageProps): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
+          <GenreList />
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#1" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#1" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-
-          <MovieList films={films} />
+          <MovieList films={filteredFilms} />
 
           <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
+            <button className="catalog__button" type="button">
+              Show more
+            </button>
           </div>
         </section>
 
@@ -103,4 +118,6 @@ function MainPage ({movie, films}: MainPageProps): JSX.Element {
   );
 }
 
-export default MainPage;
+export { MainPage };
+
+export default connector(MainPage);
