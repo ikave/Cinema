@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import App from './components/app/app';
 import { reviews } from './mocks/reviews';
@@ -9,8 +10,20 @@ import { movie } from './mocks/film';
 import { Provider } from 'react-redux';
 import { updateStore } from './store/reducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { createApi } from './services/api';
+import { requireAuthorization } from './store/action';
+import { AuthStatus } from './const';
 
-const store = createStore(updateStore, composeWithDevTools());
+const api = createApi(() =>
+  // eslint-disable-next-line comma-dangle
+  store.dispatch(requireAuthorization(AuthStatus.NoAuth))
+);
+
+const store = createStore(
+  updateStore,
+  // eslint-disable-next-line comma-dangle
+  composeWithDevTools(applyMiddleware(thunk.withExtraArgument(api)))
+);
 
 ReactDOM.render(
   <React.StrictMode>
