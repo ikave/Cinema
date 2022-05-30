@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { connect, ConnectedProps } from 'react-redux';
+import { connect, ConnectedProps, useDispatch } from 'react-redux';
 
 import { FilmType } from '../../types/film';
 import { State } from '../../types/state';
@@ -11,14 +11,17 @@ import Footer from '../../layout/footer';
 import Header from '../../layout/header';
 import MovieList from '../../components/movie-list/movie-list';
 import GenreList from '../../components/genre-list/genre-list';
+import { getFilms } from '../../store/api-action';
+import Spinner from '../../components/spinner/spinner';
 
 interface MainPageProps {
   movie: FilmType;
 }
 
-const mapStateToProps = ({ genre, films }: State) => ({
+const mapStateToProps = ({ genre, films, isLoading }: State) => ({
   genre,
   films,
+  isLoading,
 });
 
 const connector = connect(mapStateToProps);
@@ -26,12 +29,9 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainPageProps;
 
-function MainPage({
-  movie,
-  films,
-  genre,
-}: ConnectedComponentProps): JSX.Element {
+function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): JSX.Element {
   const [filteredFilms, setFilteredFilms] = useState(films);
+  const dispatch = useDispatch();
 
   const getFilteredFilms = () => {
     if (genre === DEFAULT_GENRE) {
@@ -43,6 +43,10 @@ function MainPage({
   useEffect(() => {
     setFilteredFilms(getFilteredFilms());
   }, [genre, films]);
+
+  useEffect(() => {
+    dispatch(getFilms());
+  }, [dispatch]);
 
   return (
     <>
@@ -74,19 +78,13 @@ function MainPage({
               </p>
 
               <div className="film-card__buttons">
-                <Link
-                  to={`/player/${movie.id}`}
-                  className="btn btn--play film-card__button"
-                >
+                <Link to={`/player/${movie.id}`} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link
-                  to={AppRoute.MY_LIST}
-                  className="btn btn--list film-card__button"
-                >
+                <Link to={AppRoute.MY_LIST} className="btn btn--list film-card__button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -100,9 +98,14 @@ function MainPage({
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenreList />
-
-          <MovieList films={filteredFilms} />
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <GenreList />
+              <MovieList films={filteredFilms} />
+            </>
+          )}
         </section>
 
         <Footer />

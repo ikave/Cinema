@@ -1,9 +1,27 @@
 /* eslint-disable comma-dangle */
-import { ActionType, ChangeActiveGenre } from '../types/action';
+import { AuthStatus } from '../const';
+import { ActionType } from '../types/action';
+import { FilmType } from '../types/film';
 
-export function changeActiveGenre(genre: string): ChangeActiveGenre {
-  return {
+export const changeActiveGenre = (genre: string) =>
+  ({
     type: ActionType.ChangeActiveGenre,
     payload: genre,
-  } as const;
-}
+  } as const);
+
+export const requireAuthorization = (authStatus: AuthStatus) =>
+  ({
+    type: ActionType.RequireAuthorization,
+    payload: authStatus,
+  } as const);
+
+export const fetchFilms = (films: FilmType[]) =>
+  ({
+    type: ActionType.FetchFilms,
+    payload: films,
+  } as const);
+
+export const setIsLoading = () =>
+  ({
+    type: ActionType.SetIsLoading,
+  } as const);
