@@ -8,10 +8,11 @@ export const AppRoute = {
   NOT_FOUND: '/404',
 };
 
-export const AuthStatus = {
-  AUTH: 'AUTH',
-  NO_AUTH: 'NO_AUTH',
-};
+export enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
 
 export const reviewStars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
