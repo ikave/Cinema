@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DEFAULT_GENRE, genres } from '../../const';
 import { changeActiveGenre } from '../../store/action';
-import { Action } from '../../types/action';
+import { Actions } from '../../types/action';
 import { connect, ConnectedProps } from 'react-redux';
 
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onChangeActiveGenre(genre: string) {
     dispatch(changeActiveGenre(genre));
   },
