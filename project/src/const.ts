@@ -34,3 +34,8 @@ export const genres = [
   'Sci-Fi',
   'Thrillers',
 ];
+
+export enum NameSpace {
+  films = 'FILMS',
+  user = 'USER',
+}

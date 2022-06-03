@@ -1,58 +1,25 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { connect, ConnectedProps, useDispatch } from 'react-redux';
 
-import { FilmType } from '../../types/film';
-import { State } from '../../types/state';
-
-import { AppRoute, DEFAULT_GENRE } from '../../const';
+import { AppRoute } from '../../const';
 
 import Footer from '../../layout/footer';
 import Header from '../../layout/header';
 import MovieList from '../../components/movie-list/movie-list';
 import GenreList from '../../components/genre-list/genre-list';
-import { getFilms } from '../../store/api-action';
 import Spinner from '../../components/spinner/spinner';
+import { useAppSelector } from '../../hooks';
 
-interface MainPageProps {
-  movie: FilmType;
-}
-
-const mapStateToProps = ({ genre, films, isLoading }: State) => ({
-  genre,
-  films,
-  isLoading,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainPageProps;
-
-function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): JSX.Element {
-  const [filteredFilms, setFilteredFilms] = useState(films);
-  const dispatch = useDispatch();
-
-  const getFilteredFilms = () => {
-    if (genre === DEFAULT_GENRE) {
-      return films;
-    }
-    return films.filter((film) => film.genre === genre);
-  };
-
-  useEffect(() => {
-    setFilteredFilms(getFilteredFilms());
-  }, [genre, films]);
-
-  useEffect(() => {
-    dispatch(getFilms());
-  }, [dispatch]);
+function MainPage(): JSX.Element {
+  const { films, isLoading, promo, gengeList } = useAppSelector(
+    // eslint-disable-next-line comma-dangle
+    (state) => state.FILMS
+  );
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={movie.backgroundImage} alt="The Grand Budapest Hotel" />
+          <img src={promo.backgroundImage} alt="The Grand Budapest Hotel" />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -63,7 +30,7 @@ function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): 
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src={movie.posterImage}
+                src={promo.posterImage}
                 alt="The Grand Budapest Hotel poster"
                 width="218"
                 height="327"
@@ -71,20 +38,26 @@ function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): 
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{movie.name}</h2>
+              <h2 className="film-card__title">{promo.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{movie.genre}</span>
-                <span className="film-card__year">{movie.released}</span>
+                <span className="film-card__genre">{promo.genre}</span>
+                <span className="film-card__year">{promo.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <Link to={`/player/${movie.id}`} className="btn btn--play film-card__button">
+                <Link
+                  to={`/player/${promo.id}`}
+                  className="btn btn--play film-card__button"
+                >
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </Link>
-                <Link to={AppRoute.MY_LIST} className="btn btn--list film-card__button">
+                <Link
+                  to={AppRoute.MY_LIST}
+                  className="btn btn--list film-card__button"
+                >
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -102,8 +75,8 @@ function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): 
             <Spinner />
           ) : (
             <>
-              <GenreList />
-              <MovieList films={filteredFilms} />
+              <GenreList genres={gengeList} />
+              <MovieList films={films} />
             </>
           )}
         </section>
@@ -114,6 +87,4 @@ function MainPage({ movie, films, genre, isLoading }: ConnectedComponentProps): 
   );
 }
 
-export { MainPage };
-
-export default connector(MainPage);
+export default MainPage;
