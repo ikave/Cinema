@@ -1,12 +1,16 @@
-import {FormEvent, useState} from 'react';
+import { FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks';
 import Footer from '../../layout/footer';
+import { loginAction } from '../../store/api-action';
 
 function Signin(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    dispatch(loginAction({ email, password }));
   };
 
   return (
@@ -36,7 +40,10 @@ function Signin(): JSX.Element {
                 value={email}
                 onChange={(evt) => setEmail(evt.target.value)}
               />
-              <label className="sign-in__label visually-hidden" htmlFor="user-email">
+              <label
+                className="sign-in__label visually-hidden"
+                htmlFor="user-email"
+              >
                 Email address
               </label>
             </div>
@@ -50,7 +57,10 @@ function Signin(): JSX.Element {
                 value={password}
                 onChange={(evt) => setPassword(evt.target.value)}
               />
-              <label className="sign-in__label visually-hidden" htmlFor="user-password">
+              <label
+                className="sign-in__label visually-hidden"
+                htmlFor="user-password"
+              >
                 Password
               </label>
             </div>

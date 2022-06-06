@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { movie } from '../../mocks/film';
-// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FilmType } from '../../types/film';
 import { fetchFilms } from '../api-action';
 
