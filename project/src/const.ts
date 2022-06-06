@@ -1,11 +1,20 @@
-export const AppRoute = {
-  MAIN: '/',
-  SIGNIN: '/login',
-  MY_LIST: '/mylist',
-  FILM: '/films/:id',
-  ADD_REVIEW: '/films/:id/review',
-  PLAYER: '/player/:id',
-  NOT_FOUND: '/404',
+export enum AppRoute {
+  MAIN = '/',
+  SIGNIN = '/login',
+  MY_LIST = '/mylist',
+  FILM = '/films/:id',
+  ADD_REVIEW = '/films/:id/review',
+  PLAYER = '/player/:id',
+  NOT_FOUND = '/404',
+}
+
+export const ApiRoute = {
+  FILMS: '/films',
+  PROMO: '/promo',
+  FAVORITE: '/favorite',
+  COMMENTS: '/comments',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
 };
 
 export enum AuthStatus {
