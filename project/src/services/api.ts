@@ -1,37 +1,30 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { getToken } from './token';
 
 const BACKEND_URL = 'https://8.react.pages.academy/wtw';
 const REQUEST_TIMEOUT = 5000;
 
-enum HttpCode {
-  Unauthorized = 401,
-}
+// enum HttpCode {
+//   Unauthorized = 401,
+// }
 
-type UnauthorizedCallback = () => void;
+// type UnauthorizedCallback = () => void;
 
-export const createApi = (
-  // eslint-disable-next-line comma-dangle
-  onUnauthorized: UnauthorizedCallback
-): AxiosInstance => {
+export const createApi = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
 
-  api.interceptors.response.use(
-    (response: AxiosResponse) => response,
+  api.interceptors.request.use((config: AxiosRequestConfig) => {
+    const token = getToken();
 
-    (error: AxiosError) => {
-      const { response } = error;
-
-      if (response?.status === HttpCode.Unauthorized) {
-        return onUnauthorized();
-      }
-
-      return Promise.reject(error);
-      // eslint-disable-next-line comma-dangle
+    if (token) {
+      config.headers['x-token'] = token;
     }
-  );
+
+    return config;
+  });
 
   return api;
 };

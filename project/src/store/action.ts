@@ -1,27 +1,4 @@
-/* eslint-disable comma-dangle */
-import { AuthStatus } from '../const';
-import { ActionType } from '../types/action';
-import { FilmType } from '../types/film';
+import { createAction } from '@reduxjs/toolkit';
+import { AppRoute } from '../const';
 
-export const changeActiveGenre = (genre: string) =>
-  ({
-    type: ActionType.ChangeActiveGenre,
-    payload: genre,
-  } as const);
-
-export const requireAuthorization = (authStatus: AuthStatus) =>
-  ({
-    type: ActionType.RequireAuthorization,
-    payload: authStatus,
-  } as const);
-
-export const fetchFilms = (films: FilmType[]) =>
-  ({
-    type: ActionType.FetchFilms,
-    payload: films,
-  } as const);
-
-export const setIsLoading = () =>
-  ({
-    type: ActionType.SetIsLoading,
-  } as const);
+export const redirectToRoute = createAction<AppRoute>('user/redirectToRoute');
