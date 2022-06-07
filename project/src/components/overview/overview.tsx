@@ -1,17 +1,19 @@
+import { useAppSelector } from '../../hooks';
+import { getMovieGrade } from '../../services/grade';
 import { FilmType } from '../../types/film';
 import { createMarkup } from '../../utils';
 
-interface OverviewProps {
-  movie: FilmType;
-}
+function Overview(): JSX.Element {
+  const movie: FilmType = useAppSelector((state) => state.FILMS.activeFilm);
 
-function Overview({ movie }: OverviewProps): JSX.Element {
   return (
     <>
       <div className="film-rating">
         <div className="film-rating__score">{movie.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__level">
+            {getMovieGrade(movie.rating)}
+          </span>
           <span className="film-rating__count">
             {movie.scoresCount} ratings
           </span>

@@ -1,7 +1,15 @@
+/* eslint-disable comma-dangle */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { AppDispatch } from '.';
-import { loadFilms, loadPromo, setGenres } from './film-data/filmsSlice';
+import { AppDispatch } from './';
+import {
+  loadComments,
+  loadFilmId,
+  loadFilms,
+  loadPromo,
+  loadSimilarFilms,
+  setGenres,
+} from './film-data/filmsSlice';
 import { FilmTypeFromServer } from '../types/film';
 import { adaptToFilm } from '../utils';
 import { ApiRoute, AppRoute, AuthStatus } from '../const';
@@ -31,6 +39,60 @@ export const fetchFilms = createAsyncThunk<
 
     dispatch(setGenres(['All genres', ...sortedSet]));
     dispatch(loadFilms(adaptedData));
+  } catch (error) {
+    // console.log(error.message);
+  }
+});
+
+export const fetchFilm = createAsyncThunk<
+  void,
+  number,
+  {
+    dispatch: AppDispatch;
+    extra: AxiosInstance;
+  }
+>('films/fetchFilmId', async (id: number, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.get(`${ApiRoute.FILMS}/${id}`);
+    const adaptedData = adaptToFilm(data);
+
+    dispatch(loadFilmId(adaptedData));
+  } catch (error) {
+    // console.log(error.message);
+  }
+});
+
+export const fetchComments = createAsyncThunk<
+  void,
+  number,
+  {
+    dispatch: AppDispatch;
+    extra: AxiosInstance;
+  }
+>('films/fetchComments', async (id: number, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.get(`${ApiRoute.COMMENTS}/${id}`);
+    dispatch(loadComments(data));
+  } catch (error) {
+    // console.log(error.message);
+  }
+});
+
+export const fetchSimilarFilms = createAsyncThunk<
+  void,
+  number,
+  {
+    dispatch: AppDispatch;
+    extra: AxiosInstance;
+  }
+>('films/fetchFilmId', async (id: number, { dispatch, extra: api }) => {
+  try {
+    const { data } = await api.get(`${ApiRoute.FILMS}/${id}/similar`);
+    const adaptedData = data.map((film: FilmTypeFromServer) =>
+      adaptToFilm(film)
+    );
+
+    dispatch(loadSimilarFilms(adaptedData));
   } catch (error) {
     // console.log(error.message);
   }

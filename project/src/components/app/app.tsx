@@ -10,12 +10,12 @@ import NotFound from '../../pages/not-found/not-found';
 import Player from '../../pages/player/player';
 import Signin from '../../pages/signin/signin';
 import { FilmType } from '../../types/film';
-import { ReviewsType } from '../../types/reviews';
+import { CommentsType } from '../../types/reviews';
 import HistoryRouter from '../history-route/history-route';
 import ProtectedRoute from '../protected-route/protected-route';
 
 interface AppProps {
-  reviews: ReviewsType[];
+  reviews: CommentsType[];
   favoritesFilms: FilmType[];
   movie: FilmType;
 }
@@ -27,7 +27,7 @@ function App({ favoritesFilms, movie, reviews }: AppProps): JSX.Element {
       <Routes>
         <Route path={AppRoute.MAIN} element={<MainPage />} />
         <Route path={AppRoute.SIGNIN} element={<Signin />} />
-        <Route path={AppRoute.FILM} element={<Film movie={movie} />} />
+        <Route path={AppRoute.FILM} element={<Film />} />
         <Route path={AppRoute.PLAYER} element={<Player movie={movie} />} />
         <Route
           path={AppRoute.ADD_REVIEW}

@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { movie } from '../../mocks/film';
 import { FilmType } from '../../types/film';
+import { CommentsType } from '../../types/reviews';
 import { fetchFilms } from '../api-action';
 
 type FilmsState = {
   films: FilmType[];
+  activeFilm: FilmType;
+  similar: FilmType[];
+  comments: CommentsType[];
   isLoading: boolean;
   promo: FilmType;
   gengeList: string[];
@@ -12,6 +16,27 @@ type FilmsState = {
 
 const initialState: FilmsState = {
   films: [],
+  similar: [],
+  comments: [],
+  activeFilm: {
+    id: 0,
+    name: '',
+    posterImage: '',
+    previewImage: '',
+    backgroundImage: '',
+    backgroundColor: '',
+    videoLink: '',
+    previewVideoLink: '',
+    description: '',
+    rating: 0,
+    scoresCount: 0,
+    director: '',
+    starring: [''],
+    runTime: 0,
+    genre: '',
+    released: 0,
+    isFavorite: false,
+  },
   isLoading: true,
   promo: movie,
   gengeList: [],
@@ -30,6 +55,15 @@ const filmsSlice = createSlice({
     setGenres(state, action) {
       state.gengeList = action.payload;
     },
+    loadFilmId(state, action: PayloadAction<FilmType>) {
+      state.activeFilm = action.payload;
+    },
+    loadSimilarFilms(state, action: PayloadAction<FilmType[]>) {
+      state.similar = action.payload;
+    },
+    loadComments(state, action: PayloadAction<CommentsType[]>) {
+      state.comments = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -42,5 +76,12 @@ const filmsSlice = createSlice({
   },
 });
 
-export const { loadFilms, loadPromo, setGenres } = filmsSlice.actions;
+export const {
+  loadFilms,
+  loadPromo,
+  setGenres,
+  loadFilmId,
+  loadSimilarFilms,
+  loadComments,
+} = filmsSlice.actions;
 export default filmsSlice.reducer;

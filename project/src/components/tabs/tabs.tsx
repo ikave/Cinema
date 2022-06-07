@@ -11,14 +11,14 @@ export type TabsProps = {
 };
 
 function Tabs({ tabs }: TabsProps): JSX.Element {
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const [activeTab, setActiveTab] = useState(0);
 
   return (
     <>
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          {tabs.map((tab: ITabs) => {
-            if (tab === activeTab) {
+          {tabs.map((tab: ITabs, index) => {
+            if (index === activeTab) {
               return (
                 <li
                   key={tab.title}
@@ -38,7 +38,7 @@ function Tabs({ tabs }: TabsProps): JSX.Element {
             return (
               <li
                 key={tab.title}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => setActiveTab(index)}
                 className="film-nav__item"
               >
                 <Link
@@ -53,7 +53,7 @@ function Tabs({ tabs }: TabsProps): JSX.Element {
           })}
         </ul>
       </nav>
-      {activeTab.content}
+      {tabs[activeTab].content}
     </>
   );
 }
