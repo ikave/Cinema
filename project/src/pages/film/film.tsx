@@ -6,6 +6,7 @@ import Overview from '../../components/overview/overview';
 import Reviews from '../../components/reviews/reviews';
 import SimilarList from '../../components/similar-list/similar-list';
 import Tabs from '../../components/tabs/tabs';
+import { AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Footer from '../../layout/footer';
 import Header from '../../layout/header';
@@ -21,6 +22,7 @@ function Film(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const movie: FilmType = useAppSelector((state) => state.FILMS.activeFilm);
+  const auth = useAppSelector((state) => state.USER.authorizationStatus);
 
   useEffect(() => {
     dispatch(fetchFilm(Number(id)));
@@ -86,12 +88,14 @@ function Film(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link
-                  to={`/films/${movie.id}/review`}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {auth === AuthStatus.Auth && (
+                  <Link
+                    to={`/films/${id}/review`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -1,13 +1,19 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import AddReviewForm from '../../components/add-review-form/add-review-form';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Header from '../../layout/header';
-import { FilmType } from '../../types/film';
+import { fetchFilm } from '../../store/api-action';
 
-interface AddReviewProps {
-  movie: FilmType
-}
+function AddReview(): JSX.Element {
+  const movie = useAppSelector((state) => state.FILMS.activeFilm);
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
 
-function AddReview({movie}: AddReviewProps): JSX.Element {
+  useEffect(() => {
+    dispatch(fetchFilm(Number(id)));
+  }, [dispatch, id]);
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
@@ -21,7 +27,9 @@ function AddReview({movie}: AddReviewProps): JSX.Element {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
+                <Link to={`/films/${movie.id}`} className="breadcrumbs__link">
+                  {movie.name}
+                </Link>
               </li>
               <li className="breadcrumbs__item">
                 <span className="breadcrumbs__link">Add review</span>
@@ -31,14 +39,18 @@ function AddReview({movie}: AddReviewProps): JSX.Element {
         </Header>
 
         <div className="film-card__poster film-card__poster--small">
-          <img src={movie.posterImage} alt={movie.name} width="218" height="327" />
+          <img
+            src={movie.posterImage}
+            alt={movie.name}
+            width="218"
+            height="327"
+          />
         </div>
       </div>
 
       <div className="add-review">
-        <AddReviewForm />
+        <AddReviewForm id={Number(id)} />
       </div>
-
     </section>
   );
 }

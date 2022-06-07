@@ -8,3 +8,7 @@ export interface CommentsType {
   comment: string;
   date: string;
 }
+
+export type Comment = Pick<CommentsType, 'rating' | 'comment'> & {
+  id: number;
+};

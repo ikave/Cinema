@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { AppDispatch } from './';
 import {
+  addComment,
   loadComments,
   loadFilmId,
   loadFilms,
@@ -17,6 +18,7 @@ import { setUserAuth } from './user/userSlice';
 import { AuthData } from '../types/user';
 import { saveToken } from '../services/token';
 import { redirectToRoute } from './action';
+import { Comment } from '../types/reviews';
 
 export const fetchFilms = createAsyncThunk<
   void,
@@ -77,6 +79,27 @@ export const fetchComments = createAsyncThunk<
     // console.log(error.message);
   }
 });
+
+export const sendComment = createAsyncThunk<
+  void,
+  Comment,
+  { dispatch: AppDispatch; extra: AxiosInstance }
+>(
+  'films/fetchPromo',
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post(`${ApiRoute.COMMENTS}/${id}`, {
+        comment,
+        rating,
+      });
+      // eslint-disable-next-line no-console
+      console.log(data);
+      dispatch(addComment(data));
+    } catch (error) {
+      // console.log(error.message);
+    }
+  }
+);
 
 export const fetchSimilarFilms = createAsyncThunk<
   void,

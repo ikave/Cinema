@@ -29,10 +29,7 @@ function App({ favoritesFilms, movie, reviews }: AppProps): JSX.Element {
         <Route path={AppRoute.SIGNIN} element={<Signin />} />
         <Route path={AppRoute.FILM} element={<Film />} />
         <Route path={AppRoute.PLAYER} element={<Player movie={movie} />} />
-        <Route
-          path={AppRoute.ADD_REVIEW}
-          element={<AddReview movie={movie} />}
-        />
+        <Route path={AppRoute.ADD_REVIEW} element={<AddReview />} />
         <Route
           path={AppRoute.MY_LIST}
           element={

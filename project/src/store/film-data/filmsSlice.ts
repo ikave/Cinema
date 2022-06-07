@@ -64,6 +64,9 @@ const filmsSlice = createSlice({
     loadComments(state, action: PayloadAction<CommentsType[]>) {
       state.comments = action.payload;
     },
+    addComment(state, action) {
+      state.comments.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,5 +86,6 @@ export const {
   loadFilmId,
   loadSimilarFilms,
   loadComments,
+  addComment,
 } = filmsSlice.actions;
 export default filmsSlice.reducer;
