@@ -1,11 +1,11 @@
+import { Fragment } from 'react';
+import { useAppSelector } from '../../hooks';
 import { FilmType } from '../../types/film';
 import { formatTime } from '../../utils';
 
-interface DetailsProps {
-  movie: FilmType;
-}
+function Details(): JSX.Element {
+  const movie: FilmType = useAppSelector((state) => state.FILMS.activeFilm);
 
-function Details({ movie }: DetailsProps): JSX.Element {
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -17,7 +17,7 @@ function Details({ movie }: DetailsProps): JSX.Element {
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {movie.starring.map((actor) => (
-              <div key={actor}>{actor}</div>
+              <Fragment key={actor}>{actor}</Fragment>
             ))}
           </span>
         </p>

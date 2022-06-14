@@ -28,6 +28,7 @@ export const reviewStars = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 export const HOUR = 60;
 
 export const SHOW_FILMS_COUNT = 8;
+export const SIMILAR_COUNT = 4;
 
 export const DEFAULT_GENRE = 'All genres';
 
@@ -43,6 +44,14 @@ export const genres = [
   'Sci-Fi',
   'Thrillers',
 ];
+
+export enum MovieGrade {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very good',
+  Avesome = 'Avesome',
+}
 
 export enum NameSpace {
   films = 'FILMS',

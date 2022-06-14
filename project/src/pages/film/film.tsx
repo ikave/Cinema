@@ -1,31 +1,53 @@
-import { Link } from 'react-router-dom';
+/* eslint-disable comma-dangle */
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import Details from '../../components/details/details';
 import Overview from '../../components/overview/overview';
 import Reviews from '../../components/reviews/reviews';
+import SimilarList from '../../components/similar-list/similar-list';
 import Tabs from '../../components/tabs/tabs';
+import { AuthStatus } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import Footer from '../../layout/footer';
 import Header from '../../layout/header';
+import {
+  fetchComments,
+  fetchFilm,
+  fetchSimilarFilms,
+} from '../../store/api-action';
 import { FilmType } from '../../types/film';
+import NotFound from '../not-found/not-found';
 
-interface FilmProps {
-  movie: FilmType;
-}
+function Film(): JSX.Element {
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+  const movie: FilmType = useAppSelector((state) => state.FILMS.activeFilm);
+  const auth = useAppSelector((state) => state.USER.authorizationStatus);
 
-function Film({ movie }: FilmProps): JSX.Element {
+  useEffect(() => {
+    dispatch(fetchFilm(Number(id)));
+    dispatch(fetchSimilarFilms(Number(id)));
+    dispatch(fetchComments(Number(id)));
+  }, [dispatch, id]);
+
   const tabs = [
     {
       title: 'Overview',
-      content: <Overview movie={movie} />,
+      content: <Overview />,
     },
     {
       title: 'Details',
-      content: <Details movie={movie} />,
+      content: <Details />,
     },
     {
       title: 'Reviews',
-      content: <Reviews movie={movie} />,
+      content: <Reviews />,
     },
   ];
+
+  if (!movie.id) {
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -66,12 +88,14 @@ function Film({ movie }: FilmProps): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link
-                  to={`/films/${movie.id}/review`}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {auth === AuthStatus.Auth && (
+                  <Link
+                    to={`/films/${id}/review`}
+                    className="btn film-card__button"
+                  >
+                    Add review
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -99,71 +123,7 @@ function Film({ movie }: FilmProps): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <div className="catalog__films-list">
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
-                  alt="Fantastic Beasts: The Crimes of Grindelwald"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Fantastic Beasts: The Crimes of Grindelwald
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/bohemian-rhapsody.jpg"
-                  alt="Bohemian Rhapsody"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Bohemian Rhapsody
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/macbeth.jpg"
-                  alt="Macbeth"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Macbeth
-                </a>
-              </h3>
-            </article>
-
-            <article className="small-film-card catalog__films-card">
-              <div className="small-film-card__image">
-                <img
-                  src="img/aviator.jpg"
-                  alt="Aviator"
-                  width="280"
-                  height="175"
-                />
-              </div>
-              <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">
-                  Aviator
-                </a>
-              </h3>
-            </article>
-          </div>
+          <SimilarList />
         </section>
 
         <Footer />
